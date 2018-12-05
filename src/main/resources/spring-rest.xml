@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <!--导入cxf框架自带的配置文件-->
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <bean id="userServiceImpl" class="com.wen.impl.UserServiceImpl"/>
+
+    <jaxrs:server id="restService1" address="/v1/hello">
+        <jaxrs:serviceBeans>
+            <ref bean="userServiceImpl"/>
+        </jaxrs:serviceBeans>
+        <!--声明输出格式-->
+        <jaxrs:extensionMappings>
+            <entry key="json" value="application/json"/>
+            <entry key="xml" value="application/xml"/>
+        </jaxrs:extensionMappings>
+        <!--声明处理json的具体类-->
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+</beans>
